@@ -4,6 +4,8 @@ const hbs = require('hbs')
 const forecast = require('./utils/forecast')
 const geocode = require('./utils/geocode')
 
+//for heroku
+const port = process.env.PORT || 3000
 
 // console.log(__dirname);//directory absolute path
 // console.log(__filename);//file absolute path
@@ -14,96 +16,97 @@ const app = express()
 
 //Define paths for express config
 const publicDirPath = path.join(__dirname, '../public')
-const viewsPath =path.join(__dirname , '../templates/views') 
-const partialspath = path.join(__dirname ,'../templates/partials')
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialspath = path.join(__dirname, '../templates/partials')
 
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs')
-app.set('views' , viewsPath) //customise views directory path
+app.set('views', viewsPath) //customise views directory path
 hbs.registerPartials(partialspath)
 
 //setup static directory to serve
 //customise server to match the html file in public directory
 app.use(express.static(publicDirPath))
 
-app.get('', (req,res)=>{
-    res.render('index',{
-        title :'Weather application',
-        name :'Jawhar kh'
+app.get('', (req, res) => {
+    res.render('index', {
+        title: 'Weather application',
+        name: 'Jawhar kh'
     })
 })
 
 
 
-app.get('/about', (req,res)=>{
-    res.render('about',{
-        title :'This a dynamic body of about web page',
+app.get('/about', (req, res) => {
+    res.render('about', {
+        title: 'This a dynamic body of about web page',
 
     })
 })
 
 
-app.get('/help', (req,res)=>{
-    res.render('help',{
-        title :'This a dynamic body of help web page',
+app.get('/help', (req, res) => {
+    res.render('help', {
+        title: 'This a dynamic body of help web page',
 
     })
 })
 
-app.get('/weather' , (req, res)=>{
+app.get('/weather', (req, res) => {
 
-    if(!req.query.address){
+    if (!req.query.address) {
         return res.send({
             error: 'you must provide an address !'
         })
     }
-    
-    geocode(req.query.address, (error, {latitude, longitude, location} ={}) => {
+
+    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
         if (error) {
-            return res.send({error});
+            return res.send({ error });
         }
 
         forecast(latitude, longitude, (error, data) => {
             if (error) {
-                return res.send({error})
+                return res.send({ error })
             }
             res.send(
                 {
-                    forecast : data,
+                    forecast: data,
                     location,
-                    address : req.query.address
+                    address: req.query.address
                 }
             );
         })
 
     })
-    
+
 })
 
-app.get('/product' , (req,res)=>{
+app.get('/product', (req, res) => {
 
-    if(!req.query.search){
+    if (!req.query.search) {
         return res.send({
-            error :'you must provide search term ! '
+            error: 'you must provide search term ! '
         })
     }
-       
+
     res.send({
-        products : []
+        products: []
     })
 
-    
+
 })
 
 
-app.get('/help/*', (req,res)=>{
-    res.render('404',{
-        body :'Help article not found !'})
+app.get('/help/*', (req, res) => {
+    res.render('404', {
+        body: 'Help article not found !'
+    })
 })
 
-app.get('*', (req,res)=>{
-    res.render('404',{
-        body :'Soryy ! Not found !',
+app.get('*', (req, res) => {
+    res.render('404', {
+        body: 'Soryy ! Not found !',
 
     })
 })
@@ -126,6 +129,6 @@ app.get('*', (req,res)=>{
 // })
 
 
-app.listen(3000, ()=>{
-    console.log('Server is up on port 3000 !');
+app.listen(port, () => {
+    console.log('Server is up on port '+ port);
 })
