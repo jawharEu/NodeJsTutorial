@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>This is the title of the webpage!</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+</head>
+
+<body>
+    <div class="main_content">
+    
+    {{>header}}
+
+
+    <form class="form">
+        <input type="text" placeholder="Location">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <p id="message1"></p>
+    <p id="message2"></p>
+    <p id="errormsg"></p>
+   
+    
+    
+    <!--<h4>created by : {{name}}</h4>-->
+
+    {{>footer}}
+    
+
+    </div>
+    
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>

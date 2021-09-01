@@ -1,0 +1,17 @@
+h1{
+    color: red;
+}
+
+#mypic{
+    width: 20%;
+    height: 25%;
+    position: relative;
+    float: none;
+    
+}
+
+body{
+    padding-left: 5%;
+    padding-right: 5%;
+    font-family: 'Times New Roman', Times, serif;
+}
